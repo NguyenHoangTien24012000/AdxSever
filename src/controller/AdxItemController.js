@@ -5,7 +5,7 @@ class AdxItemController {
         let {idGroup} = req.params;
         // console.log(req.params)
         try {
-            const [rows, fields] = await connection.execute('SELECT * FROM item_detail WHERE group_item = ?', [idGroup] );
+            const [rows, fields] = await connection.execute('SELECT * FROM demo_adx WHERE id_type_adx = ?', [idGroup] );
             // res.send(rows);
             return res.status(200).json({
                 message: 'ok',
@@ -20,7 +20,7 @@ class AdxItemController {
     getItemDetail = async(req, res) =>{
         let {idItem} = req.params;
         try {
-            const [rows, fields] = await connection.execute('SELECT * FROM item_detail WHERE id_item = ?', [idItem] );
+            const [rows, fields] = await connection.execute('SELECT * FROM demo_adx WHERE id_item = ?', [idItem] );
             // res.send(rows);
             return res.status(200).json({
                 message: 'ok',
@@ -41,7 +41,7 @@ class AdxItemController {
             })
         }
         try {
-            await connection.execute('UPDATE item_detail set img_item = ?, description_item = ? WHERE id_item = ?', [img_item, description_item, idItem]);
+            await connection.execute('UPDATE demo_adx set img_item = ?, description_item = ? WHERE id_item = ?', [img_item, description_item, idItem]);
             return res.status(200).json({
                 message: 'Update success'
             })
@@ -51,6 +51,7 @@ class AdxItemController {
             })
         }
     }
+    
 }
 
 module.exports = new AdxItemController;

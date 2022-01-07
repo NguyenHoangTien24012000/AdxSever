@@ -41,7 +41,19 @@ class AdxTypeController {
     }
     getGroupAdxType = async (req, res) => {
         let { groupType } = req.params;
-        const [rows, fields] = await connection.execute('SELECT * FROM adx_type WHERE group_type = ?', [groupType]);
+        const [rows, fields] = await connection.execute('SELECT * FROM adx_type WHERE type_adx = ?', [groupType]);
+        if (rows.length === 0) {
+            return res.status(401).json({
+                message: 'data does not exist'
+            })
+        }
+        return res.status(200).json({
+            message: 'ok',
+            data: rows
+        })
+    }
+    getAllGroupAdxType = async (req, res) =>{
+        const [rows, fields] = await connection.execute('SELECT DISTINCT type_adx FROM adx_type;');
         if (rows.length === 0) {
             return res.status(401).json({
                 message: 'data does not exist'

@@ -4,6 +4,7 @@ const connection = require('../services/connectDB')
 const { make } = require('../services/JWT')
 class UserAdminController {
     checkLogin = async (req, res) => {
+        // console.log('headers', req)
         // let {data} = req.body;
         // console.log("data", req.body);
         let data = req.body;
