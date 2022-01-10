@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 // const {make, check} = require('../services/JWT')
 const adxType = require('./adxType.route')
-const adxItem = require('./adxItem.route')
+const adxItem = require('./adxItem.route');
+// const { route } = require('./adxType.route');
 // const adxTypeController = require('../controller/AdxTypeController')
+const upLoadFile = require('./upLoadFile.route')
 
 const initWebRoute = (app) =>{
     
@@ -17,6 +19,8 @@ const initWebRoute = (app) =>{
     router.use('/adxType', adxType);
 
     router.use('/adxItem', adxItem);
+
+    router.use('/upLoadFile', upLoadFile)
     
     // router.get('/checkToken',async (req, res) =>{
     //     try{
@@ -27,6 +31,8 @@ const initWebRoute = (app) =>{
     //         return res.status(401).send(err)
     //     }
     // })
+
+
     return app.use('/', router)
 }
 
