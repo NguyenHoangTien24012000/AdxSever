@@ -13,19 +13,6 @@ class AdxTypeController {
             data: rows
         })
     }
-    // createAdxType = async (req, res) => {
-    //     let { name_adx, img_adx, adx_size, adx_position, adx_detail, group_type } = req.body;
-
-    //     if (!name_adx || !img_adx, !adx_size, !adx_position, !adx_detail, !group_type) {
-    //         return res.status(401).json({
-    //             message: 'missing required params'
-    //         })
-    //     }
-    //     await connection.execute('INSERT INTO adx_type ( name_adx, img_adx, adx_size, adx_position, adx_detail, group_type) VALUES (?, ?, ?, ?, ?, ?)', [name_adx, img_adx, adx_size, adx_position, adx_detail, group_type]);
-    //     return res.status(200).json({
-    //         message: 'ok',
-    //     })
-    // }
     updateAdxType = async (req, res) => {
         let id = Number(req.params.id);
         // console.log(typeof id)
@@ -53,15 +40,19 @@ class AdxTypeController {
         })
     }
     getAllGroupAdxType = async (req, res) =>{
-        const [rows, fields] = await connection.execute('SELECT DISTINCT type_adx FROM adx_type;');
+        const [rows, fields] = await connection.execute('SELECT type_adx, COUNT(*) FROM adx_type GROUP BY type_adx');
         if (rows.length === 0) {
             return res.status(401).json({
                 message: 'data does not exist'
             })
         }
+        const data = rows.map((item) =>{
+            const number = item['COUNT(*)'];
+            return {type_adx : item.type_adx, number : number};
+        })
         return res.status(200).json({
             message: 'ok',
-            data: rows
+            data: data
         })
     }
 }
