@@ -1,4 +1,5 @@
 const connection = require('../services/connectDB')
+const DOMAIN = require('../services/constant');
 
 class AdxTypeController {
     getAllAdxType = async (req, res) => {
@@ -39,21 +40,28 @@ class AdxTypeController {
             data: rows
         })
     }
-    getAllGroupAdxType = async (req, res) =>{
+    getAllGroupAdxType = async (req, res) => {
         const [rows, fields] = await connection.execute('SELECT type_adx, COUNT(*) FROM adx_type GROUP BY type_adx');
         if (rows.length === 0) {
             return res.status(401).json({
                 message: 'data does not exist'
             })
         }
-        const data = rows.map((item) =>{
+        const data = rows.map((item) => {
             const number = item['COUNT(*)'];
-            return {type_adx : item.type_adx, number : number};
+            return { type_adx: item.type_adx, number: number };
         })
         return res.status(200).json({
             message: 'ok',
             data: data
         })
+    }
+    uploadFile = async (req, res) => {
+        console.log(req.body)
+        const a = (req.file.path.split('\\').splice(2).toString())
+        const srcImage = `${DOMAIN.DOMAINIMG}/${a}`;
+        console.log(srcImage)
+        res.send("image uploaded")
     }
 }
 
