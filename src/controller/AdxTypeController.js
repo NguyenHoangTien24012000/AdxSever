@@ -58,9 +58,9 @@ class AdxTypeController {
     }
     uploadFile = async (req, res) => {
         console.log(req.body)
-        const a = (req.file.path.split('\\').splice(2).toString())
-        const srcImage = `${DOMAIN.DOMAINIMG}/${a}`;
-        console.log(srcImage)
+        // const a = (req.file.path.split('\\').splice(2).toString())
+        // const srcImage = `${DOMAIN.DOMAINIMG}/${a}`;
+        // console.log(srcImage)
         res.send("image uploaded")
     }
 }
