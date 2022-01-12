@@ -2,6 +2,19 @@ const connection = require('../services/connectDB')
 const DOMAIN = require('../services/constant');
 
 class AdxTypeController {
+    getAdxType = async(req,res) =>{
+        let { id_adx } = req.params;
+        const [rows, fields] = await connection.execute('SELECT * FROM adx_type WHERE id_adx = ?', [id_adx]);
+        if (rows.length === 0) {
+            return res.status(401).json({
+                message: 'data does not exist'
+            })
+        }
+        return res.status(200).json({
+            message: 'ok',
+            data: rows
+        })
+    }
     getAllAdxType = async (req, res) => {
         const [rows, fields] = await connection.execute('SELECT * FROM adx_type');
         if (rows.length === 0) {
@@ -57,10 +70,11 @@ class AdxTypeController {
         })
     }
     uploadFile = async (req, res) => {
-        console.log(req.body)
-        // const a = (req.file.path.split('\\').splice(2).toString())
-        // const srcImage = `${DOMAIN.DOMAINIMG}/${a}`;
-        // console.log(srcImage)
+        // console.log(req)
+        const a = (req.file.path.split('\\').splice(2).toString())
+        const srcImage = `${DOMAIN.DOMAINIMG}/${a}`;
+        console.log(srcImage);
+
         res.send("image uploaded")
     }
 }
