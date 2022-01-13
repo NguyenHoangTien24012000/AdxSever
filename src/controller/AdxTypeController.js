@@ -28,9 +28,7 @@ class AdxTypeController {
         })
     }
     updateAdxType = async (req, res) => {
-        // console.log(typeof id)
         let {id_adx, name_adx,name_demo, size, posti, detail,type_screen } = req.body;
-        console.log(req.body)
         let image;
         if(!req.file){
             image = req.body.image
