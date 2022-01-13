@@ -28,17 +28,30 @@ class AdxTypeController {
         })
     }
     updateAdxType = async (req, res) => {
-        let id = Number(req.params.id);
         // console.log(typeof id)
-        let { name_adx, img_adx, adx_size, adx_position, adx_detail } = req.body;
+        let {id_adx, name_adx,name_demo, size, posti, detail,type_screen } = req.body;
+        console.log(req.body)
+        let image;
+        if(!req.file){
+            image = req.body.image
+        }else{
+            const a = (req.file.path.split('\\').splice(2).toString())
+            image = `${DOMAIN.DOMAINIMG}/${a}`;
+        }
 
-        if (!name_adx || !img_adx, !adx_size, !adx_position, !adx_detail) {
+        if (!id_adx || !name_adx || !size || !posti || !detail || !name_adx || !name_demo || !type_screen) {
             return res.status(401).json({
                 message: 'missing required params',
             })
         }
-        await connection.execute('UPDATE adx_type set name_adx = ?, img_adx = ?, adx_size = ?, adx_position = ?, adx_detail = ? WHERE id_adx = ?', [name_adx, img_adx, adx_size, adx_position, adx_detail, id]);
-        return res.send('Update success')
+
+   
+
+        await connection.execute('UPDATE adx_type SET name_adx = ?, image = ?, size = ?, posti = ?, detail = ?, name_demo = ?, type_screen = ? WHERE id_adx = ?', [name_adx, image, size, posti, detail, name_demo,type_screen, id_adx]);
+
+        return res.status(200).json({
+            message : 'ok'
+        })
     }
     getGroupAdxType = async (req, res) => {
         let { groupType } = req.params;
@@ -69,14 +82,7 @@ class AdxTypeController {
             data: data
         })
     }
-    uploadFile = async (req, res) => {
-        // console.log(req)
-        const a = (req.file.path.split('\\').splice(2).toString())
-        const srcImage = `${DOMAIN.DOMAINIMG}/${a}`;
-        console.log(srcImage);
-
-        res.send("image uploaded")
-    }
+ 
 }
 
 module.exports = new AdxTypeController;
