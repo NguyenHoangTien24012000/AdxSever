@@ -5,7 +5,7 @@ const adxItem = require('./adxItem.route');
 
 
 
-const initWebRoute = (app) =>{
+const getDataRouter = (app) =>{
     
     router.use('/adxType', adxType);
 
@@ -15,4 +15,4 @@ const initWebRoute = (app) =>{
 }
 
 
-module.exports = initWebRoute;
+module.exports = getDataRouter;

@@ -1,11 +1,9 @@
 const express = require('express');
 const app = express();
 const port = 5000;
-const initWebRoute = require('./routes/index.route')
+const getDataRouter = require('./routes/indexGetData.route')
 const authMiddleWare = require('./services/authMiddleWare');
-const userLoginRouter = require('./routes/loginIndex.route');
-
-
+const userLoginRouter = require('./routes/indexLogin.route');
 
 //config server
 app.use(express.urlencoded({ extended: true }));
@@ -20,13 +18,19 @@ app.use(function (req, res, next) {
 //uploadFile
 app.use('/imageAdx',express.static('src/public'));
 
-//Access token;
+
+//router public
+
+
+//router login
 userLoginRouter(app);
 
+//Router get data
+getDataRouter(app);
+
+//Access Token
 app.use(authMiddleWare)
 
-
-initWebRoute(app);
 //handle 404 not found
 app.use((req, res) => {
     return res.status(404).send('<h2>Page Not Found</h2>')
