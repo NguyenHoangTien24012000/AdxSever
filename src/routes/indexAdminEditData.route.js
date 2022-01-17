@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-
+const adxType = require('./adxType.route')
+const adxItem = require('./adxItem.route');
 
 
 

@@ -4,7 +4,7 @@ const port = 5000;
 const getDataRouter = require('./routes/indexGetData.route')
 const authMiddleWare = require('./services/authMiddleWare');
 const userLoginRouter = require('./routes/indexLogin.route');
-
+const adminRouter = require('./routes/indexAdminEditData.route');
 //config server
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -18,10 +18,6 @@ app.use(function (req, res, next) {
 //uploadFile
 app.use('/imageAdx',express.static('src/public'));
 
-
-//router public
-
-
 //router login
 userLoginRouter(app);
 
@@ -29,7 +25,11 @@ userLoginRouter(app);
 getDataRouter(app);
 
 //Access Token
-app.use(authMiddleWare)
+app.use(authMiddleWare);
+
+//Router admin
+adminRouter(app);
+
 
 //handle 404 not found
 app.use((req, res) => {

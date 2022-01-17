@@ -7,10 +7,10 @@ let isAuth = async (req, res, next) =>{
             req.auth = autData;
             next();
         } catch (error) {
-            return res.send(error)
+            return res.status(400).send(error)
         }
       }else{
-        return res.send({data: "Token invalid!!"});
+        return res.status(400).send({data: "Token invalid!!"});
       }
     //   console.log(token);
 }
