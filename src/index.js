@@ -34,7 +34,7 @@ adminRouter(app);
 //     return res.status(404).send('<h2>Page Not Found</h2>')
 // })
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+app.listen(process.env.PORT || PORT, () => {
+    console.log(`Example app listening at http://localhost:${PORT}`)
 })
 
