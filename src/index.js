@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 5000;
+const PORT = 5000;
 const initWebRoute = require('./routes/index.route')
 const authMiddleWare = require('./services/authMiddleWare');
 const userLoginRouter = require('./routes/loginIndex.route');
