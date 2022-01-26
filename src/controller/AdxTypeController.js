@@ -2,7 +2,7 @@ const connection = require('../services/connectDB')
 const DOMAIN = require('../services/constant');
 
 class AdxTypeController {
-    getAdxType = async(req,res) =>{
+    getAdxType = async (req, res) => {
         let { id_adx } = req.params;
         const [rows, fields] = await connection.execute('SELECT * FROM adx_type WHERE id_adx = ?', [id_adx]);
         if (rows.length === 0) {
@@ -28,11 +28,11 @@ class AdxTypeController {
         })
     }
     updateAdxType = async (req, res) => {
-        let {id_adx, name_adx,name_demo, size, posti, detail,type_screen } = req.body;
-        let image;
-        if(!req.file){
+        let { id_adx, name_adx, name_demo, size, posti, detail, type_screen } = req.body;
+        let image='default';
+        if (!req.file) {
             image = req.body.image
-        }else{
+        } else {
             const a = (req.file.path.split('\\').splice(2).toString())
             image = `${DOMAIN.DOMAINIMG}/${a}`;
         }
@@ -43,12 +43,12 @@ class AdxTypeController {
             })
         }
 
-   
 
-        await connection.execute('UPDATE adx_type SET name_adx = ?, image = ?, size = ?, posti = ?, detail = ?, name_demo = ?, type_screen = ? WHERE id_adx = ?', [name_adx, image, size, posti, detail, name_demo,type_screen, id_adx]);
+
+        await connection.execute('UPDATE adx_type SET name_adx = ?, image = ?, size = ?, posti = ?, detail = ?, name_demo = ?, type_screen = ? WHERE id_adx = ?', [name_adx, image, size, posti, detail, name_demo, type_screen, id_adx]);
 
         return res.status(200).json({
-            message : 'ok'
+            message: 'ok'
         })
     }
     getGroupAdxType = async (req, res) => {
@@ -80,7 +80,54 @@ class AdxTypeController {
             data: data
         })
     }
- 
+
+    addAdxType = async (req, res) => {
+        let {  name_adx, name_demo, size, posti, detail, type_screen, type_adx } = req.body;
+        // console.log(req.body)
+        let image;
+        // if()
+        if (!req.file) {
+            image = req.body.image
+        } else {
+            const a = (req.file.path.split('\\').splice(2).toString())
+            image = `${DOMAIN.DOMAINIMG}/${a}`;
+        }
+
+        if (!name_adx || !size || !posti || !detail || !name_demo || !type_screen || ! type_adx || !image) {
+            return res.status(401).json({
+                message: 'missing required params',
+            })
+        }
+
+        const [rows, fields] = await connection.execute('INSERT INTO adx_type (image, name_adx, name_demo, posti, size, detail, type_adx, type_screen) VALUES (?,?,?,?,?,?,?,?)', [image, name_adx, name_demo, posti, size, detail, type_adx, type_screen]);
+
+        // console.log(rows.insertId)
+        let id_type_adx = rows.insertId
+
+        for(let i = 0; i < 3; i++){
+            await connection.execute('INSERT INTO demo_adx(id_type_adx) VALUES (?)', [id_type_adx]);
+        }
+
+        return res.status(200).json({
+            message: 'ok'
+        })
+    }
+
+    deleteAdxType = async(req,res) =>{
+        let {id_adx} = req.params;
+        const [rows, fields] = await connection.execute('DELETE FROM adx_type WHERE id_adx = ?', [id_adx]);
+        // console.log(rows)
+        if(rows.affectedRows === 0){
+            return res.status(400).json({
+                message: 'delete failed'
+            })
+        }
+        return res.status(200).json({
+            message: 'ok'
+        })
+        
+    }
+
 }
 
 module.exports = new AdxTypeController;
